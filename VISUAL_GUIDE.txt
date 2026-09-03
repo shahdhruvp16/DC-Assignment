@@ -1,0 +1,387 @@
+================================================================================
+    DISTRIBUTED FOOD DELIVERY SYSTEM - VISUAL STEP-BY-STEP GUIDE
+================================================================================
+
+🎯 GOAL: Run 4 servers + 1 client to demonstrate distributed system concepts
+         with Vector Clocks, Concurrent Events, and Global Snapshots
+
+================================================================================
+STEP 1: PREPARE YOUR TERMINAL SETUP
+================================================================================
+
+You need 5 terminal windows arranged like this:
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │                    YOUR COMPUTER SCREEN                     │
+    ├─────────────────────────────────────────────────────────────┤
+    │                                                              │
+    │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────┐  │
+    │  │  Terminal 1      │  │  Terminal 2      │  │Terminal3 │  │
+    │  │  Server 1        │  │  Server 2        │  │Server 2  │  │
+    │  │  (port 8000)     │  │  (port 8001)     │  │(port8002)│  │
+    │  └──────────────────┘  └──────────────────┘  └──────────┘  │
+    │                                                              │
+    │  ┌──────────────────┐  ┌──────────────────┐                │
+    │  │  Terminal 4      │  │  Terminal 5      │                │
+    │  │  Server 4        │  │  CLIENT          │                │
+    │  │  (port 8003)     │  │  (Menu)          │                │
+    │  └──────────────────┘  └──────────────────┘                │
+    │                                                              │
+    └─────────────────────────────────────────────────────────────┘
+
+================================================================================
+STEP 2: START EACH SERVER (In separate terminal windows)
+================================================================================
+
+TERMINAL 1 - Central Order Processor:
+┌────────────────────────────────────────────────────────────────┐
+│ $ python3 servers/server_1.py                                  │
+│                                                                │
+│ ==================================================             │
+│    CENTRAL ORDER PROCESSOR (Server 1)                          │
+│ ==================================================             │
+│                                                                │
+│ ✓ Server 1 running on port 8000...                            │
+│                                                                │
+│ Registered Functions:                                          │
+│   ✓ health()                                                   │
+│   ✓ receive_order()                                            │
+│   ...                                                          │
+│                                                                │
+│ Waiting for client requests...                                │
+│                                                                │
+│ [Keep this running!]                                          │
+└────────────────────────────────────────────────────────────────┘
+
+TERMINAL 2 - Restaurant 1:
+┌────────────────────────────────────────────────────────────────┐
+│ $ python3 servers/server_2.py                                  │
+│                                                                │
+│ ==================================================             │
+│      RESTAURANT 1 (Server 2)                                   │
+│ ==================================================             │
+│                                                                │
+│ ✓ Server 2 running on port 8001...                            │
+│ [Keep this running!]                                          │
+└────────────────────────────────────────────────────────────────┘
+
+TERMINAL 3 - Restaurant 2:
+┌────────────────────────────────────────────────────────────────┐
+│ $ python3 servers/server_3.py                                  │
+│                                                                │
+│ ✓ Server 3 running on port 8002...                            │
+│ [Keep this running!]                                          │
+└────────────────────────────────────────────────────────────────┘
+
+TERMINAL 4 - Delivery Partner:
+┌────────────────────────────────────────────────────────────────┐
+│ $ python3 servers/server_4.py                                  │
+│                                                                │
+│ ✓ Server 4 running on port 8003...                            │
+│ [Keep this running!]                                          │
+└────────────────────────────────────────────────────────────────┘
+
+================================================================================
+STEP 3: VERIFY ALL SERVERS ARE RUNNING
+================================================================================
+
+Check each terminal:
+
+    ✓ Terminal 1: "Waiting for client requests..."
+    ✓ Terminal 2: "Waiting for client requests..."
+    ✓ Terminal 3: "Waiting for client requests..."
+    ✓ Terminal 4: "Waiting for client requests..."
+
+All should show port numbers:
+    ✓ 8000 ✓ 8001 ✓ 8002 ✓ 8003
+
+If any shows error:
+    → Stop it (Ctrl+C)
+    → Restart it
+    → Make sure folder path is correct
+
+================================================================================
+STEP 4: START THE CLIENT
+================================================================================
+
+TERMINAL 5 - Start Client:
+┌────────────────────────────────────────────────────────────────┐
+│ $ python3 client/client.py                                     │
+│                                                                │
+│ ======================================================================   │
+│                  DISTRIBUTED FOOD DELIVERY SYSTEM               │
+│                     CLIENT COORDINATOR                          │
+│ ======================================================================   │
+│                                                                │
+│                                                                │
+│ ============================================================   │
+│                  MAIN MENU                                     │
+│ ============================================================   │
+│ 1. Check Server Health                                         │
+│ 2. Simulate Food Delivery Workflow                             │
+│ 3. View All Events                                             │
+│ 4. Analyze Concurrent Events                                   │
+│ 5. Initiate Global Snapshot                                    │
+│ 6. View Server Statistics                                      │
+│ 7. View Load Balancing Dashboard                               │
+│ 8. Run Complete Demo  ← THIS ONE!                              │
+│ 9. Exit                                                        │
+│ ============================================================   │
+│                                                                │
+│ Enter your choice (1-9): █                                     │
+└────────────────────────────────────────────────────────────────┘
+
+================================================================================
+STEP 5: SELECT OPTION 8 (COMPLETE DEMO)
+================================================================================
+
+Simply type: 8
+
+The system will automatically:
+
+    1. Check all server health
+        ✓ Server-1: Healthy
+        ✓ Server-2: Healthy
+        ✓ Server-3: Healthy
+        ✓ Server-4: Healthy
+
+    2. Process 3 food delivery orders
+        Order #101 (Alice) → Kitchen → Delivery → Completed
+        Order #102 (Bob)   → Kitchen → Delivery → Completed
+        Order #103 (Charlie) → Kitchen → Delivery → Completed
+
+    3. Collect all events from servers
+        Total Events Collected: 50
+
+    4. Display event log with vector clocks
+        [12:34:56] P0 [SEND]     VC[2,0,0,0] - Sending order
+        [12:34:57] P1 [RECEIVE]  VC[2,1,0,0] - Received order
+        [12:34:58] P1 [INTERNAL] VC[0,2,0,0] - Preparing food
+        [12:34:59] P3 [RECEIVE]  VC[0,2,0,2] - Received delivery
+        ...
+
+    5. Analyze concurrent events
+        Concurrent Events Found: 12
+        
+        1. P0 VC[1,0,0,0] || P2 VC[0,0,1,0]
+        2. P1 VC[0,2,0,0] || P3 VC[0,0,0,1]
+        ...
+
+    6. Initiate global snapshot
+        ✓ Snapshot initiated by P0-Server1
+        ✓ Collecting state from all servers
+        ✓ SNAPSHOT IS CONSISTENT ✓✓✓
+
+    7. Display server statistics
+        Server-1: 15 requests, 5 events
+        Server-2: 12 requests, 8 events
+        Server-3: 10 requests, 6 events
+        Server-4: 13 requests, 10 events
+
+    8. Show load balancing
+        Server-1: ████████░░░░ 25%
+        Server-2: ██████░░░░░░ 20%
+        Server-3: ████░░░░░░░░ 15%
+        Server-4: ██████░░░░░░ 25%
+
+Total Time: ~30 seconds ⏱️
+
+================================================================================
+WHAT YOU'LL SEE IN SERVER TERMINALS (Actual Output)
+================================================================================
+
+Server Terminal While Client is Running:
+
+┌────────────────────────────────────────────────────────────────┐
+│ [12:34:56] P1 [RECEIVE] VC[1,1,0,0] - Order #101 from Server-1 │
+│ [12:34:57] P1 [INTERNAL] VC[0,2,0,0] - Preparing order #101    │
+│ [12:34:58] P1 [SEND] VC[0,3,0,0] - Sending order #101 to ...   │
+│ [12:34:59] P1 [RECEIVE] VC[0,3,0,1] - Received acknowledgment  │
+│ [12:35:00] P1 [INTERNAL] VC[0,4,0,1] - Order confirmed         │
+│                                                                │
+│ Each line shows:                                               │
+│   [Time]      Event timestamp                                  │
+│   P1          Process ID (P0-P3 for each server)               │
+│   [TYPE]      RECEIVE, SEND, or INTERNAL                       │
+│   VC[x,x,x,x] Vector clock (logical time)                      │
+│   -            Event description                               │
+└────────────────────────────────────────────────────────────────┘
+
+Vector Clock Progression Explained:
+
+    Order 1 starts at Central (P0):
+    ┌─────────────────────────────────────┐
+    │ P0: VC[0,0,0,0]                    │
+    │  └─ SEND to P1 → VC[1,0,0,0]      │
+    │                                     │
+    │ P1: VC[0,0,0,0]                    │
+    │  └─ RECEIVE from P0 → VC[1,1,0,0] │
+    │  └─ PREPARE → VC[0,2,0,0]         │
+    │  └─ SEND to P3 → VC[0,3,0,0]      │
+    │                                     │
+    │ P3: VC[0,0,0,0]                    │
+    │  └─ RECEIVE from P1 → VC[0,3,0,1] │
+    │  └─ DELIVER → VC[0,3,0,2]         │
+    └─────────────────────────────────────┘
+
+================================================================================
+STEP 6: CAPTURE OUTPUT FOR YOUR ASSIGNMENT
+================================================================================
+
+To save everything for your PDF:
+
+METHOD 1: Copy from client terminal
+    1. Right-click on client terminal
+    2. Select "Copy Output" or "Select All"
+    3. Paste into text editor
+    4. Save as client_output.txt
+
+METHOD 2: Redirect to file (Better!)
+    $ python3 client/client.py | tee client_output.txt
+    [Then select option 8]
+    [Output saved to client_output.txt automatically]
+
+METHOD 3: For servers too
+    Terminal 1: $ python3 servers/server_1.py | tee server_1.log
+    Terminal 2: $ python3 servers/server_2.py | tee server_2.log
+    Terminal 3: $ python3 servers/server_3.py | tee server_3.log
+    Terminal 4: $ python3 servers/server_4.py | tee server_4.log
+
+Result:
+    ✓ server_1.log (Server 1 output)
+    ✓ server_2.log (Server 2 output)
+    ✓ server_3.log (Server 3 output)
+    ✓ server_4.log (Server 4 output)
+    ✓ client_output.txt (All client options)
+
+================================================================================
+STEP 7: PREPARE YOUR PDF SUBMISSION
+================================================================================
+
+Edit SUBMISSION_DOCUMENTATION.md:
+
+    1. Find: [INSERT YOUR GROUP NUMBER]
+       Change to: 1 (or your actual group number)
+
+    2. Find: [Member X Name]
+       Change to: Your team member names
+
+    3. Add the outputs from your test run:
+       - Event log (from client option 3)
+       - Concurrent events (from client option 4)
+       - Snapshot result (from client option 5)
+       - Server statistics (from client option 6)
+       - Load balancing (from client option 7)
+
+Convert to PDF:
+    $ pandoc SUBMISSION_DOCUMENTATION.md -o GROUP-1.pdf
+
+Or use Google Docs:
+    1. Copy content from SUBMISSION_DOCUMENTATION.md
+    2. Create new Google Doc
+    3. Paste content
+    4. File → Download → PDF
+
+Or use online converter:
+    1. Go to https://pandoc.org/try/
+    2. Paste markdown
+    3. Select format: Markdown to PDF
+    4. Download PDF
+
+Save as: GROUP-X.pdf (where X = your group number)
+
+================================================================================
+STEP 8: SUBMIT YOUR ASSIGNMENT
+================================================================================
+
+1. Have PDF ready: GROUP-1.pdf
+
+2. Go to Taxila website
+
+3. Find your assignment submission area
+
+4. Upload GROUP-1.pdf
+
+5. Submit
+
+6. Verify: Check status changed to "Submitted"
+
+DONE! ✅
+
+================================================================================
+WHAT IF SOMETHING GOES WRONG?
+================================================================================
+
+Problem: "Connection refused" error
+→ Solution: Make sure ALL 4 servers are running
+           Check Terminal 1-4 show "Waiting for client requests..."
+
+Problem: Server says "Address already in use"
+→ Solution: Port is taken by another process
+           Kill old process: lsof -i :8000 (check for port)
+           Or restart your computer
+
+Problem: Client says "No active servers available"
+→ Solution: Servers not started yet or not accessible
+           Wait 5 seconds and try again
+           Or restart all servers
+
+Problem: No events showing in option 3
+→ Solution: Must run option 2 first (Simulate Workflow)
+           Option 3 just displays what option 2 created
+
+Problem: Want to stop everything
+→ Method 1: Client option 9 (exits client only)
+           Then Ctrl+C in each server terminal
+→ Method 2: Just Ctrl+C in all terminals
+
+Problem: Python 3 not found
+→ Solution: Your Python might be called "python" not "python3"
+           Try: python server_1.py (without the 3)
+
+================================================================================
+QUICK REFERENCE - WHAT TO REMEMBER
+================================================================================
+
+    🖥️  SERVERS (4 terminals, start first):
+        python3 servers/server_1.py
+        python3 servers/server_2.py
+        python3 servers/server_3.py
+        python3 servers/server_4.py
+
+    👥 CLIENT (1 terminal, start after servers):
+        python3 client/client.py
+        Then choose: 8
+
+    ✨ WHAT YOU GET:
+        ✓ 50+ events logged
+        ✓ 10+ concurrent events detected
+        ✓ Vector clocks on everything
+        ✓ Global snapshot captured
+        ✓ Consistency verified
+        
+    📝 FOR YOUR ASSIGNMENT:
+        ✓ Save all output
+        ✓ Edit SUBMISSION_DOCUMENTATION.md
+        ✓ Convert to PDF
+        ✓ Submit GROUP-X.pdf to Taxila
+
+    ⏱️  TOTAL TIME:
+        First run: 30 seconds
+        Multiple runs: 30 sec each
+        Assignment: 30 minutes
+
+================================================================================
+
+You're ready! 🚀
+
+Just follow the steps above and everything will work perfectly.
+
+If stuck, check:
+1. QUICK_REFERENCE.md (quick overview)
+2. RUNNING_INSTRUCTIONS.md (detailed help)
+3. This file (visual guide)
+
+Good luck! 🎉
+
+================================================================================
